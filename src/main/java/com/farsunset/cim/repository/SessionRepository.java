@@ -21,31 +21,46 @@
  */
 package com.farsunset.cim.repository;
 
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.farsunset.cim.entity.Session;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.farsunset.cim.mapper.SessionMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 
 @Repository
-@Transactional(rollbackFor = Exception.class)
-public interface SessionRepository extends JpaRepository<Session, Long> {
+public class SessionRepository extends ServiceImpl<SessionMapper, Session> {
 
-	@Modifying
-	@Query("delete from Session where host = ?1 ")
-	void deleteAll(String host);
+    public void deleteAll(String host) {
+        if (StringUtils.isBlank(host)) {
+            return;
+        }
 
-	@Modifying
-	@Query("update Session set state = :state where id = :id")
-	void updateState(long id,int state);
+        new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(Session::getHost, host)
+                .remove();
+    }
 
-	@Modifying
-	@Query("update Session set state = " + Session.STATE_APNS + " where uid = ?1 and channel = ?2")
-	void openApns(String uid,String channel);
+    public void updateState(long id, int state) {
+        new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(Session::getId, id)
+                .set(Session::getState, state)
+                .update();
+    }
 
-	@Modifying
-	@Query("update Session set state = " + Session.STATE_ACTIVE + " where uid = ?1 and channel = ?2")
-	void closeApns(String uid,String channel);
+    public void openApns(String uid, String channel) {
+        new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(Session::getUid, uid)
+                .eq(Session::getChannel, channel)
+                .set(Session::getState, Session.STATE_APNS)
+                .update();
+    }
+
+    public void closeApns(String uid, String channel) {
+        new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(Session::getUid, uid)
+                .eq(Session::getChannel, channel)
+                .set(Session::getState, Session.STATE_ACTIVE)
+                .update();
+    }
 }

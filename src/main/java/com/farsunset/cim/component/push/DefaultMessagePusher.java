@@ -25,50 +25,49 @@ import com.farsunset.cim.component.redis.KeyValueRedisTemplate;
 import com.farsunset.cim.component.redis.SignalRedisTemplate;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.service.APNsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /*
  * 消息发送实现类
- * 
+ *
  */
 @Component
 public class DefaultMessagePusher implements CIMMessagePusher {
 
-	@Resource
-	private APNsService apnsService;
+    @Autowired
+    private APNsService apnsService;
 
-	@Resource
-	private SignalRedisTemplate signalRedisTemplate;
+    @Autowired
+    private SignalRedisTemplate signalRedisTemplate;
 
-	@Resource
-	private KeyValueRedisTemplate keyValueRedisTemplate;
+    @Autowired
+    private KeyValueRedisTemplate keyValueRedisTemplate;
 
-	/**
-	 * 向用户发送消息
-	 *
-	 * @param message
-	 */
-	public final void push(Message message) {
+    /**
+     * 向用户发送消息
+     *
+     * @param message
+     */
+    public final void push(Message message) {
 
-		String uid = message.getReceiver();
+        String uid = message.getReceiver();
 
-		/*
-		 * 说明iOS客户端开启了apns
-		 */
-		String deviceToken = keyValueRedisTemplate.getDeviceToken(uid);
-		if(deviceToken != null) {
-			apnsService.push(message,deviceToken);
-			return;
-		}
+        /*
+         * 说明iOS客户端开启了apns
+         */
+        String deviceToken = keyValueRedisTemplate.getDeviceToken(uid);
+        if (deviceToken != null) {
+            apnsService.push(message, deviceToken);
+            return;
+        }
 
-		/*
-		 * 通过发送redis广播，到集群中的每台实例，获得当前UID绑定了连接并推送
-		 * @see com.farsunset.hoxin.component.message.PushMessageListener
-		 */
-		signalRedisTemplate.push(message);
+        /*
+         * 通过发送redis广播，到集群中的每台实例，获得当前UID绑定了连接并推送
+         * @see com.farsunset.hoxin.component.message.PushMessageListener
+         */
+        signalRedisTemplate.push(message);
 
-	}
+    }
 
 }

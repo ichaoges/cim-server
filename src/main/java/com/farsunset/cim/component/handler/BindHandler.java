@@ -30,11 +30,15 @@ import com.farsunset.cim.group.SessionGroup;
 import com.farsunset.cim.handler.CIMRequestHandler;
 import com.farsunset.cim.model.ReplyBody;
 import com.farsunset.cim.model.SentBody;
+import com.farsunset.cim.service.AccessTokenService;
 import com.farsunset.cim.service.SessionService;
 import io.netty.channel.Channel;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
  * 客户长连接 账户绑定实现
@@ -51,19 +55,46 @@ public class BindHandler implements CIMRequestHandler {
 	@Resource
 	private SignalRedisTemplate signalRedisTemplate;
 
+	@Autowired
+	private AccessTokenService accessTokenService;
+
 	@Override
 	public void process(Channel channel, SentBody body) {
-
-		if (sessionGroup.isManaged(channel)){
+		if (sessionGroup.isManaged(channel)) {
 			return;
 		}
+
 
 		ReplyBody reply = new ReplyBody();
 		reply.setKey(body.getKey());
 		reply.setCode(HttpStatus.OK.value());
 		reply.setTimestamp(System.currentTimeMillis());
 
+		String token = body.get("token");
+		if (StringUtils.isBlank(token)) {
+			reply.setCode(HttpStatus.UNAUTHORIZED.value());
+			reply.setMessage("no token");
+			channel.writeAndFlush(reply);
+			return;
+		}
+
+		String uidFromToken = accessTokenService.getUid(token);
 		String uid = body.get("uid");
+
+		if (StringUtils.isBlank(uid)) {
+			reply.setCode(HttpStatus.UNAUTHORIZED.value());
+			reply.setMessage("no uid");
+			channel.writeAndFlush(reply);
+			return;
+		}
+
+		if (!Objects.equals(uid, uidFromToken)) {
+			reply.setCode(HttpStatus.UNAUTHORIZED.value());
+			reply.setMessage("invalid token");
+			channel.writeAndFlush(reply);
+			return;
+		}
+
 		Session session = new Session();
 		session.setUid(uid);
 		session.setNid(channel.attr(ChannelAttr.ID).get());

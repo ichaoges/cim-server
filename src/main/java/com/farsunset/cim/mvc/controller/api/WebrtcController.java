@@ -51,8 +51,7 @@ public class WebrtcController {
     @ApiImplicitParam(name = "targetId", value = "对方用户ID", paramType = "query", dataTypeClass = Long.class)
     @PostMapping(value = {"/voice"})
     public ResponseEntity<Void> voice(@ApiParam(hidden = true) @UID String uid, @RequestParam String targetId) {
-
-
+        
         Message message = new Message();
         message.setAction(MessageAction.ACTION_900);
         message.setSender(uid);

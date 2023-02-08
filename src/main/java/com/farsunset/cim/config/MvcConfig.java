@@ -37,7 +37,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Configuration
-public class MvcConfig implements WebMvcConfigurer{
+public class MvcConfig implements WebMvcConfigurer {
 
     @Resource
     private HandlerInterceptor tokenInterceptor;
@@ -47,8 +47,7 @@ public class MvcConfig implements WebMvcConfigurer{
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/webrtc/**");
-
+                .addPathPatterns("/webrtc/**", "/api/message/**", "/user/logout");
     }
 
 

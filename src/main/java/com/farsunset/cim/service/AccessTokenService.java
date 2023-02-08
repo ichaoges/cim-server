@@ -24,9 +24,13 @@ package com.farsunset.cim.service;
 
 public interface AccessTokenService {
 
-	String generate(String uid);
+    String generate(String uid);
 
-	String getUid(String token);
+    void set(String token, String uid);
 
-	void delete(String value);
+    String getUid(String token);
+
+    void delete(String value);
+
+    String checkAocToken(String token);
 }

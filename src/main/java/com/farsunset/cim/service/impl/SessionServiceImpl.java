@@ -25,9 +25,9 @@ import com.farsunset.cim.component.redis.KeyValueRedisTemplate;
 import com.farsunset.cim.entity.Session;
 import com.farsunset.cim.repository.SessionRepository;
 import com.farsunset.cim.service.SessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -36,14 +36,13 @@ import java.util.stream.Collectors;
 @Service
 public class SessionServiceImpl implements SessionService {
 
-    @Resource
+    private final String host;
+
+    @Autowired
     private SessionRepository sessionRepository;
 
-    @Resource
+    @Autowired
     private KeyValueRedisTemplate keyValueRedisTemplate;
-
-
-    private final String host;
 
     public SessionServiceImpl() throws UnknownHostException {
         host = InetAddress.getLocalHost().getHostAddress();
@@ -58,9 +57,8 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void delete(long id) {
-        sessionRepository.deleteById(id);
+        sessionRepository.removeById(id);
     }
-
 
     @Override
     public void deleteLocalhost() {
@@ -69,24 +67,24 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void updateState(long id, int state) {
-        sessionRepository.updateState(id,state);
+        sessionRepository.updateState(id, state);
     }
 
     @Override
-    public void openApns(String uid,String deviceToken) {
-        keyValueRedisTemplate.openApns(uid,deviceToken);
-        sessionRepository.openApns(uid,Session.CHANNEL_IOS);
+    public void openApns(String uid, String deviceToken) {
+        keyValueRedisTemplate.openApns(uid, deviceToken);
+        sessionRepository.openApns(uid, Session.CHANNEL_IOS);
     }
 
     @Override
     public void closeApns(String uid) {
         keyValueRedisTemplate.closeApns(uid);
-        sessionRepository.closeApns(uid,Session.CHANNEL_IOS);
+        sessionRepository.closeApns(uid, Session.CHANNEL_IOS);
     }
 
     @Override
     public List<Session> findAll() {
-        return sessionRepository.findAll()
+        return sessionRepository.list()
                 .stream()
                 .filter(session -> session.getState() == Session.STATE_ACTIVE || session.getState() == Session.STATE_APNS)
                 .collect(Collectors.toList());

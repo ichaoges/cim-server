@@ -23,6 +23,7 @@ package com.farsunset.cim.mvc.controller.api;
 
 
 import com.farsunset.cim.annotation.AccessToken;
+import com.farsunset.cim.entity.TempUser;
 import com.farsunset.cim.entity.User;
 import com.farsunset.cim.mvc.response.ResponseEntity;
 import com.farsunset.cim.service.AccessTokenService;
@@ -42,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,12 +66,12 @@ public class UserController {
     })
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestParam String telephone) {
-		User user = userService.getUserByPhone(telephone);
-		if (user == null) {
-			return ResponseEntity.make(HttpStatus.UNAUTHORIZED);
-		}
+        TempUser user = userService.getUserByPhone(telephone);
+        if (user == null) {
+            return ResponseEntity.make(HttpStatus.UNAUTHORIZED);
+        }
 
-		Map<String, Object> body = new HashMap<>();
+        Map<String, Object> body = new HashMap<>();
         body.put("id", user.getId());
         body.put("name", user.getName());
         body.put("telephone", telephone);
@@ -79,6 +81,33 @@ public class UserController {
         result.setData(body);
 
         result.setToken(accessTokenService.generate(String.valueOf(user.getId())));
+        result.setTimestamp(System.currentTimeMillis());
+        return result;
+    }
+
+    @ApiOperation(httpMethod = "POST", value = "新登录")
+    @PostMapping(value = "/signIn")
+    public ResponseEntity<?> signIn(@NotEmpty @RequestParam String token) {
+        String uid = accessTokenService.checkAocToken(token);
+        if (uid == null) {
+            return ResponseEntity.make(HttpStatus.UNAUTHORIZED);
+        }
+
+        accessTokenService.set(token, uid);
+
+        ResponseEntity<Map<String, Object>> result = new ResponseEntity<>();
+
+        User user = userService.getUserById(uid);
+
+        if (user != null) {
+            Map<String, Object> body = new HashMap<>();
+            body.put("id", user.getId());
+            body.put("name", user.getUserName());
+            body.put("telephone", user.getPhone());
+            result.setData(body);
+        }
+
+        result.setToken(token);
         result.setTimestamp(System.currentTimeMillis());
         return result;
     }

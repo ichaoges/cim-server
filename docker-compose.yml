@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+  cim-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: cim-server
+    container_name: cim-server
+    hostname: cim-server
+    volumes:
+      - ./logs/:/ichaoge/logs/:rw
+      - ./config/:/ichaoge/config/:rw
+    ports:
+      - '8085:8085'
+      - '23456:23456'
+      - '34567:34567'
+    networks:
+      - default
+    restart: always
+    environment:
+      TZ: Asia/Singapore
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+
+networks:
+  default:

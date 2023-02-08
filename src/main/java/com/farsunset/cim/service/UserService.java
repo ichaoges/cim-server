@@ -1,5 +1,6 @@
 package com.farsunset.cim.service;
 
+import com.farsunset.cim.entity.TempUser;
 import com.farsunset.cim.entity.User;
 
 /**
@@ -7,6 +8,8 @@ import com.farsunset.cim.entity.User;
  */
 public interface UserService {
 
-    User getUserByPhone(String phone);
+    TempUser getUserByPhone(String phone);
+
+    User getUserById(String uid);
 
 }
