@@ -25,13 +25,14 @@ import com.farsunset.cim.component.redis.KeyValueRedisTemplate;
 import com.farsunset.cim.component.redis.SignalRedisTemplate;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.service.APNsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/*
+/**
  * 消息发送实现类
- *
  */
+@Slf4j
 @Component
 public class DefaultMessagePusher implements CIMMessagePusher {
 
@@ -52,6 +53,8 @@ public class DefaultMessagePusher implements CIMMessagePusher {
     public final void push(Message message) {
 
         String uid = message.getReceiver();
+
+        log.debug("推送消息: {}", message);
 
         /*
          * 说明iOS客户端开启了apns

@@ -33,6 +33,7 @@ import com.farsunset.cim.model.SentBody;
 import com.farsunset.cim.service.AccessTokenService;
 import com.farsunset.cim.service.SessionService;
 import io.netty.channel.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,93 +44,95 @@ import java.util.Objects;
 /**
  * 客户长连接 账户绑定实现
  */
+@Slf4j
 @CIMHandler(key = "client_bind")
 public class BindHandler implements CIMRequestHandler {
 
-	@Resource
-	private SessionService sessionService;
+    @Resource
+    private SessionService sessionService;
 
-	@Resource
-	private SessionGroup sessionGroup;
+    @Resource
+    private SessionGroup sessionGroup;
 
-	@Resource
-	private SignalRedisTemplate signalRedisTemplate;
+    @Resource
+    private SignalRedisTemplate signalRedisTemplate;
 
-	@Autowired
-	private AccessTokenService accessTokenService;
+    @Autowired
+    private AccessTokenService accessTokenService;
 
-	@Override
-	public void process(Channel channel, SentBody body) {
-		if (sessionGroup.isManaged(channel)) {
-			return;
-		}
+    @Override
+    public void process(Channel channel, SentBody body) {
+        if (sessionGroup.isManaged(channel)) {
+            return;
+        }
 
+        log.debug("Received bind package: {}", body);
 
-		ReplyBody reply = new ReplyBody();
-		reply.setKey(body.getKey());
-		reply.setCode(HttpStatus.OK.value());
-		reply.setTimestamp(System.currentTimeMillis());
+        ReplyBody reply = new ReplyBody();
+        reply.setKey(body.getKey());
+        reply.setCode(HttpStatus.OK.value());
+        reply.setTimestamp(System.currentTimeMillis());
 
-		String token = body.get("token");
-		if (StringUtils.isBlank(token)) {
-			reply.setCode(HttpStatus.UNAUTHORIZED.value());
-			reply.setMessage("no token");
-			channel.writeAndFlush(reply);
-			return;
-		}
+        String token = body.get("token");
+        if (StringUtils.isBlank(token)) {
+            reply.setCode(HttpStatus.UNAUTHORIZED.value());
+            reply.setMessage("no token");
+            channel.writeAndFlush(reply);
+            return;
+        }
 
-		String uidFromToken = accessTokenService.getUid(token);
-		String uid = body.get("uid");
+        String uidFromToken = accessTokenService.getUid(token);
+        String uid = body.get("uid");
 
-		if (StringUtils.isBlank(uid)) {
-			reply.setCode(HttpStatus.UNAUTHORIZED.value());
-			reply.setMessage("no uid");
-			channel.writeAndFlush(reply);
-			return;
-		}
+        if (StringUtils.isBlank(uid)) {
+            reply.setCode(HttpStatus.UNAUTHORIZED.value());
+            reply.setMessage("no uid");
+            channel.writeAndFlush(reply);
+            return;
+        }
 
-		if (!Objects.equals(uid, uidFromToken)) {
-			reply.setCode(HttpStatus.UNAUTHORIZED.value());
-			reply.setMessage("invalid token");
-			channel.writeAndFlush(reply);
-			return;
-		}
+        if (!Objects.equals(uid, uidFromToken)) {
+            reply.setCode(HttpStatus.UNAUTHORIZED.value());
+            reply.setMessage("invalid token");
+            channel.writeAndFlush(reply);
+            return;
+        }
 
-		Session session = new Session();
-		session.setUid(uid);
-		session.setNid(channel.attr(ChannelAttr.ID).get());
-		session.setDeviceId(body.get("deviceId"));
-		session.setChannel(body.get("channel"));
-		session.setDeviceName(body.get("deviceName"));
-		session.setAppVersion(body.get("appVersion"));
-		session.setOsVersion(body.get("osVersion"));
-		session.setLanguage(body.get("language"));
+        Session session = new Session();
+        session.setUid(uid);
+        session.setNid(channel.attr(ChannelAttr.ID).get());
+        session.setDeviceId(body.get("deviceId"));
+        session.setChannel(body.get("channel"));
+        session.setDeviceName(body.get("deviceName"));
+        session.setAppVersion(body.get("appVersion"));
+        session.setOsVersion(body.get("osVersion"));
+        session.setLanguage(body.get("language"));
 
-		channel.attr(ChannelAttr.UID).set(uid);
-		channel.attr(ChannelAttr.CHANNEL).set(session.getChannel());
-		channel.attr(ChannelAttr.DEVICE_ID).set(session.getDeviceId());
-		channel.attr(ChannelAttr.LANGUAGE).set(session.getLanguage());
+        channel.attr(ChannelAttr.UID).set(uid);
+        channel.attr(ChannelAttr.CHANNEL).set(session.getChannel());
+        channel.attr(ChannelAttr.DEVICE_ID).set(session.getDeviceId());
+        channel.attr(ChannelAttr.LANGUAGE).set(session.getLanguage());
 
-		/*
-		 *存储到数据库
-		 */
-		sessionService.add(session);
+        /*
+         *存储到数据库
+         */
+        sessionService.add(session);
 
-		channel.attr(Constants.SESSION_ID).set(session.getId());
+        channel.attr(Constants.SESSION_ID).set(session.getId());
 
-		/*
-		 * 添加到内存管理
-		 */
-		sessionGroup.add(channel);
+        /*
+         * 添加到内存管理
+         */
+        sessionGroup.add(channel);
 
-		/*
-		 *向客户端发送bind响应
-		 */
-		channel.writeAndFlush(reply);
+        /*
+         *向客户端发送bind响应
+         */
+        channel.writeAndFlush(reply);
 
-		/*
-		 * 发送上线事件到集群中的其他实例，控制其他设备下线
-		 */
-		signalRedisTemplate.bind(session);
-	}
+        /*
+         * 发送上线事件到集群中的其他实例，控制其他设备下线
+         */
+        signalRedisTemplate.bind(session);
+    }
 }

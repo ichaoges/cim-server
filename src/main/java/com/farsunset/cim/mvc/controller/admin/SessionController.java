@@ -33,14 +33,13 @@ import javax.annotation.Resource;
 @RequestMapping("/console/session")
 public class SessionController {
 
-	@Resource
-	private SessionService sessionService;
+    @Resource
+    private SessionService sessionService;
 
-	@GetMapping(value = "/list")
-	public String list(Model model) {
-		model.addAttribute("sessionList", sessionService.findAll());
-		return "console/session/manage";
-
-	}
+    @GetMapping(value = "/list")
+    public String list(Model model) {
+        model.addAttribute("sessionList", sessionService.findAll());
+        return "console/session/manage";
+    }
 
 }

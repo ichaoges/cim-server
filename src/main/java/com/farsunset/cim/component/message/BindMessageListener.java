@@ -53,17 +53,17 @@ public class BindMessageListener implements MessageListener {
      如: 多个android或ios不能同时在线
          一个android或ios可以和web，桌面同时在线
      */
-    private final Map<String,String[]> conflictMap = new HashMap<>();
+    private final Map<String, String[]> conflictMap = new HashMap<>();
 
     @Resource
     private SessionGroup sessionGroup;
 
-    public BindMessageListener(){
-        conflictMap.put(Session.CHANNEL_ANDROID,new String[]{Session.CHANNEL_ANDROID,Session.CHANNEL_IOS});
-        conflictMap.put(Session.CHANNEL_IOS,new String[]{Session.CHANNEL_ANDROID,Session.CHANNEL_IOS});
-        conflictMap.put(Session.CHANNEL_WINDOWS,new String[]{Session.CHANNEL_WINDOWS,Session.CHANNEL_WEB,Session.CHANNEL_MAC});
-        conflictMap.put(Session.CHANNEL_WEB,new String[]{Session.CHANNEL_WINDOWS,Session.CHANNEL_WEB,Session.CHANNEL_MAC});
-        conflictMap.put(Session.CHANNEL_MAC,new String[]{Session.CHANNEL_WINDOWS,Session.CHANNEL_WEB,Session.CHANNEL_MAC});
+    public BindMessageListener() {
+        conflictMap.put(Session.CHANNEL_ANDROID, new String[]{Session.CHANNEL_ANDROID, Session.CHANNEL_IOS});
+        conflictMap.put(Session.CHANNEL_IOS, new String[]{Session.CHANNEL_ANDROID, Session.CHANNEL_IOS});
+        conflictMap.put(Session.CHANNEL_WINDOWS, new String[]{Session.CHANNEL_WINDOWS, Session.CHANNEL_WEB, Session.CHANNEL_MAC});
+        conflictMap.put(Session.CHANNEL_WEB, new String[]{Session.CHANNEL_WINDOWS, Session.CHANNEL_WEB, Session.CHANNEL_MAC});
+        conflictMap.put(Session.CHANNEL_MAC, new String[]{Session.CHANNEL_WINDOWS, Session.CHANNEL_WEB, Session.CHANNEL_MAC});
     }
 
     @EventListener
@@ -84,7 +84,7 @@ public class BindMessageListener implements MessageListener {
         String uid = session.getUid();
         String[] conflictChannels = conflictMap.get(session.getChannel());
 
-        Collection<Channel> channelList = sessionGroup.find(uid,conflictChannels);
+        Collection<Channel> channelList = sessionGroup.find(uid, conflictChannels);
 
         channelList.removeIf(channel -> session.getNid().equals(channel.attr(ChannelAttr.ID).get()));
 
@@ -93,7 +93,7 @@ public class BindMessageListener implements MessageListener {
          */
         channelList.forEach(channel -> {
 
-            if (Objects.equals(session.getDeviceId(),channel.attr(ChannelAttr.DEVICE_ID).get())){
+            if (Objects.equals(session.getDeviceId(), channel.attr(ChannelAttr.DEVICE_ID).get())) {
                 channel.close();
                 return;
             }
