@@ -43,7 +43,7 @@ public class RedisConfig {
 
     @Autowired
     public RedisConfig(LettuceConnectionFactory connectionFactory, @Value("${spring.profiles.active}") String profile) {
-        if (Objects.equals("dev", profile)) {
+        if (Objects.equals("local", profile)) {
             connectionFactory.setValidateConnection(true);
         }
     }

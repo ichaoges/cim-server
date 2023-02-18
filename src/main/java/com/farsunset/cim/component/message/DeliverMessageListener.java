@@ -1,6 +1,7 @@
 package com.farsunset.cim.component.message;
 
 import com.farsunset.cim.component.redis.SignalRedisTemplate;
+import com.farsunset.cim.config.properties.ServerProperties;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.util.JSONUtils;
 import lombok.Data;
@@ -17,9 +18,12 @@ import java.util.List;
 @Component
 public class DeliverMessageListener implements MessageListener {
 
+    private final ServerProperties serverProperties;
+
     private final SignalRedisTemplate signalRedisTemplate;
 
-    public DeliverMessageListener(SignalRedisTemplate signalRedisTemplate) {
+    public DeliverMessageListener(ServerProperties serverProperties, SignalRedisTemplate signalRedisTemplate) {
+        this.serverProperties = serverProperties;
         this.signalRedisTemplate = signalRedisTemplate;
     }
 
@@ -30,6 +34,10 @@ public class DeliverMessageListener implements MessageListener {
     }
 
     private void handle(DeliverMessage message) {
+        if (!serverProperties.isDeliverMessage()) {
+            return;
+        }
+
         log.info("收到投递消息：{}", message);
 
         if (message.receivers == null || message.receivers.isEmpty()) {
