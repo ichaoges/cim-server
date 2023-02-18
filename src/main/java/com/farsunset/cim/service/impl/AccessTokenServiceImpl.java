@@ -63,9 +63,4 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     public void set(String token, String uid) {
         tokenRedisTemplate.save(token, uid, 7, TimeUnit.DAYS);
     }
-
-    @Override
-    public String checkAocToken(String token) {
-        return tokenRedisTemplate.boundValueOps(String.format("aoc:token_2_uid_%s", token)).get();
-    }
 }

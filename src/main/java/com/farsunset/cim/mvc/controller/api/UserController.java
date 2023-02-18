@@ -24,7 +24,6 @@ package com.farsunset.cim.mvc.controller.api;
 
 import com.farsunset.cim.annotation.AccessToken;
 import com.farsunset.cim.entity.TempUser;
-import com.farsunset.cim.entity.User;
 import com.farsunset.cim.mvc.response.ResponseEntity;
 import com.farsunset.cim.service.AccessTokenService;
 import com.farsunset.cim.service.UserService;
@@ -64,7 +63,7 @@ public class UserController {
             @ApiImplicitParam(name = "telephone", value = "手机号码", paramType = "query", dataTypeClass = String.class),
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query", dataTypeClass = String.class),
     })
-    @PostMapping(value = "/login")
+    //@PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestParam String telephone) {
         TempUser user = userService.getUserByPhone(telephone);
         if (user == null) {
@@ -85,28 +84,11 @@ public class UserController {
         return result;
     }
 
+    @Deprecated
     @ApiOperation(httpMethod = "POST", value = "新登录")
     @PostMapping(value = "/signIn")
     public ResponseEntity<?> signIn(@NotEmpty @RequestParam String token) {
-        String uid = accessTokenService.checkAocToken(token);
-        if (uid == null) {
-            return ResponseEntity.make(HttpStatus.UNAUTHORIZED);
-        }
-
-        accessTokenService.set(token, uid);
-
         ResponseEntity<Map<String, Object>> result = new ResponseEntity<>();
-
-        User user = userService.getUserById(uid);
-
-        if (user != null) {
-            Map<String, Object> body = new HashMap<>();
-            body.put("id", user.getId());
-            body.put("name", user.getUserName());
-            body.put("telephone", user.getPhone());
-            result.setData(body);
-        }
-
         result.setToken(token);
         result.setTimestamp(System.currentTimeMillis());
         return result;

@@ -52,12 +52,14 @@ public class RedisConfig {
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
                                                                        MessageListener pushMessageListener,
                                                                        MessageListener deliverMessageListener,
+                                                                       MessageListener tokenRegisterListener,
                                                                        MessageListener bindMessageListener) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(pushMessageListener, new ChannelTopic(Constants.PUSH_MESSAGE_INNER_QUEUE));
         container.addMessageListener(bindMessageListener, new ChannelTopic(Constants.BIND_MESSAGE_INNER_QUEUE));
         container.addMessageListener(deliverMessageListener, new ChannelTopic(Constants.DELIVER_MESSAGE_INNER_QUEUE));
+        container.addMessageListener(tokenRegisterListener, new ChannelTopic(Constants.TOKEN_REGISTER_INNER_QUEUE));
         return container;
     }
 

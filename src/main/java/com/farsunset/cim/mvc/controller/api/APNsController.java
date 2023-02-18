@@ -28,42 +28,40 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RestController
-@RequestMapping("/apns")
+//@RestController
+//@RequestMapping("/apns")
 @Api(produces = "application/json", tags = "APNs推送相关")
 public class APNsController {
 
-	@ApiOperation(httpMethod = "POST", value = "开启apns")
+    @Resource
+    private SessionService sessionService;
+
+    @ApiOperation(httpMethod = "POST", value = "开启apns")
 
 
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "deviceToken", value = "APNs的deviceToken", paramType = "query", dataTypeClass = String.class, required = true, example = ""),
-			@ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query", dataTypeClass = String.class,example = "0")
-	})
-	@PostMapping(value = "/open")
-	public ResponseEntity<Void> open(@RequestParam String uid , @RequestParam String deviceToken) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "deviceToken", value = "APNs的deviceToken", paramType = "query", dataTypeClass = String.class, required = true, example = ""),
+            @ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query", dataTypeClass = String.class, example = "0")
+    })
+    @PostMapping(value = "/open")
+    public ResponseEntity<Void> open(@RequestParam String uid, @RequestParam String deviceToken) {
 
-		sessionService.openApns(uid,deviceToken);
+        sessionService.openApns(uid, deviceToken);
 
-		return ResponseEntity.ok().build();
-	}
+        return ResponseEntity.ok().build();
+    }
 
-	@Resource
-	private SessionService sessionService;
+    @ApiOperation(httpMethod = "POST", value = "关闭apns")
+    @ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query", dataTypeClass = String.class, example = "0")
+    @PostMapping(value = "/close")
+    public ResponseEntity<Void> close(@RequestParam String uid) {
 
-	@ApiOperation(httpMethod = "POST", value = "关闭apns")
-	@ApiImplicitParam(name = "uid", value = "用户ID", paramType = "query", dataTypeClass = String.class,example = "0")
-	@PostMapping(value = "/close")
-	public ResponseEntity<Void> close(@RequestParam String uid) {
+        sessionService.closeApns(uid);
 
-		sessionService.closeApns(uid);
-
-		return ResponseEntity.ok().build();
-	}
+        return ResponseEntity.ok().build();
+    }
 }

@@ -31,6 +31,4 @@ public interface AccessTokenService {
     String getUid(String token);
 
     void delete(String value);
-
-    String checkAocToken(String token);
 }

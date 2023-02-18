@@ -31,6 +31,8 @@ public interface Constants {
 
     String DELIVER_MESSAGE_INNER_QUEUE = "signal/channel/DELIVER_MESSAGE_INNER_QUEUE";
 
+    String TOKEN_REGISTER_INNER_QUEUE = "signal/channel/TOKEN_REGISTER_INNER_QUEUE";
+
     String APNS_DEVICE_TOKEN = "APNS_OPEN_%s";
 
     AttributeKey<Long> SESSION_ID = AttributeKey.valueOf("session_id");

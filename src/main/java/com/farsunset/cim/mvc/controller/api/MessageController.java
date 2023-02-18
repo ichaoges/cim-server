@@ -29,15 +29,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 
-@RestController
-@RequestMapping("/api/message")
+//@RestController
+//@RequestMapping("/api/message")
 @Api(produces = "application/json", tags = "消息相关接口")
 public class MessageController {
 
