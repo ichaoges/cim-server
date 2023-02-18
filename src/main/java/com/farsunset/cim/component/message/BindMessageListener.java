@@ -23,6 +23,7 @@ package com.farsunset.cim.component.message;
 
 import com.farsunset.cim.component.event.SessionEvent;
 import com.farsunset.cim.constant.ChannelAttr;
+import com.farsunset.cim.constants.MessageAction;
 import com.farsunset.cim.entity.Session;
 import com.farsunset.cim.group.SessionGroup;
 import com.farsunset.cim.model.Message;
@@ -43,8 +44,6 @@ import java.util.Objects;
  */
 @Component
 public class BindMessageListener implements MessageListener {
-
-    private static final String FORCE_OFFLINE_ACTION = "999";
 
     private static final String SYSTEM_ID = "0";
 
@@ -99,7 +98,7 @@ public class BindMessageListener implements MessageListener {
             }
 
             Message message = new Message();
-            message.setAction(FORCE_OFFLINE_ACTION);
+            message.setAction(MessageAction.ACTION_999);
             message.setReceiver(uid);
             message.setSender(SYSTEM_ID);
             message.setContent(session.getDeviceName());

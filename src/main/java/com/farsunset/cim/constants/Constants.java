@@ -25,12 +25,14 @@ import io.netty.util.AttributeKey;
 
 public interface Constants {
 
-	String PUSH_MESSAGE_INNER_QUEUE = "signal/channel/PUSH_MESSAGE_INNER_QUEUE";
+    String PUSH_MESSAGE_INNER_QUEUE = "signal/channel/PUSH_MESSAGE_INNER_QUEUE";
 
-	String BIND_MESSAGE_INNER_QUEUE = "signal/channel/BIND_MESSAGE_INNER_QUEUE";
+    String BIND_MESSAGE_INNER_QUEUE = "signal/channel/BIND_MESSAGE_INNER_QUEUE";
 
-	String APNS_DEVICE_TOKEN = "APNS_OPEN_%s";
+    String DELIVER_MESSAGE_INNER_QUEUE = "signal/channel/DELIVER_MESSAGE_INNER_QUEUE";
 
-	AttributeKey<Long> SESSION_ID = AttributeKey.valueOf("session_id");
+    String APNS_DEVICE_TOKEN = "APNS_OPEN_%s";
+
+    AttributeKey<Long> SESSION_ID = AttributeKey.valueOf("session_id");
 
 }

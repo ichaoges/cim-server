@@ -22,7 +22,7 @@
 package com.farsunset.cim.mvc.controller.api;
 
 import com.farsunset.cim.annotation.UID;
-import com.farsunset.cim.component.push.DefaultMessagePusher;
+import com.farsunset.cim.component.push.CIMMessagePusher;
 import com.farsunset.cim.constants.MessageAction;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.mvc.request.WebrtcRequest;
@@ -45,18 +45,18 @@ import javax.annotation.Resource;
 public class WebrtcController {
 
     @Resource
-    private DefaultMessagePusher defaultMessagePusher;
+    private CIMMessagePusher messagePusher;
 
     @ApiOperation(httpMethod = "POST", value = "发起单人语音通话")
     @ApiImplicitParam(name = "targetId", value = "对方用户ID", paramType = "query", dataTypeClass = Long.class)
     @PostMapping(value = {"/voice"})
     public ResponseEntity<Void> voice(@ApiParam(hidden = true) @UID String uid, @RequestParam String targetId) {
-        
+
         Message message = new Message();
         message.setAction(MessageAction.ACTION_900);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -70,7 +70,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_901);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -83,7 +83,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_902);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -97,7 +97,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_903);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -111,7 +111,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_904);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -125,7 +125,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_905);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -139,7 +139,7 @@ public class WebrtcController {
         message.setAction(MessageAction.ACTION_906);
         message.setSender(uid);
         message.setReceiver(targetId);
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
 
         return ResponseEntity.make();
     }
@@ -153,7 +153,7 @@ public class WebrtcController {
         message.setSender(uid);
         message.setContent(request.getContent());
         message.setReceiver(request.getUid());
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
         return ResponseEntity.make();
     }
 
@@ -166,7 +166,7 @@ public class WebrtcController {
         message.setSender(uid);
         message.setContent(request.getContent());
         message.setReceiver(request.getUid());
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
         return ResponseEntity.make();
     }
 
@@ -179,7 +179,7 @@ public class WebrtcController {
         message.setSender(uid);
         message.setContent(request.getContent());
         message.setReceiver(request.getUid());
-        defaultMessagePusher.push(message);
+        messagePusher.push(message);
         return ResponseEntity.make();
     }
 }

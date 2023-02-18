@@ -54,7 +54,7 @@ public class DefaultMessagePusher implements CIMMessagePusher {
 
         String uid = message.getReceiver();
 
-        log.debug("推送消息: {}", message);
+        log.info("推送消息: {}", message);
 
         /*
          * 说明iOS客户端开启了apns

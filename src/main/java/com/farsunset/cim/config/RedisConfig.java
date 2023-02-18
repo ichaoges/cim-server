@@ -42,8 +42,8 @@ import java.util.Objects;
 public class RedisConfig {
 
     @Autowired
-    public RedisConfig(LettuceConnectionFactory connectionFactory, @Value("${spring.profiles.active}") String profile){
-        if (Objects.equals("dev",profile)){
+    public RedisConfig(LettuceConnectionFactory connectionFactory, @Value("${spring.profiles.active}") String profile) {
+        if (Objects.equals("dev", profile)) {
             connectionFactory.setValidateConnection(true);
         }
     }
@@ -51,11 +51,13 @@ public class RedisConfig {
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
                                                                        MessageListener pushMessageListener,
-                                                                       MessageListener bindMessageListener){
+                                                                       MessageListener deliverMessageListener,
+                                                                       MessageListener bindMessageListener) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(pushMessageListener,new ChannelTopic(Constants.PUSH_MESSAGE_INNER_QUEUE));
-        container.addMessageListener(bindMessageListener,new ChannelTopic(Constants.BIND_MESSAGE_INNER_QUEUE));
+        container.addMessageListener(pushMessageListener, new ChannelTopic(Constants.PUSH_MESSAGE_INNER_QUEUE));
+        container.addMessageListener(bindMessageListener, new ChannelTopic(Constants.BIND_MESSAGE_INNER_QUEUE));
+        container.addMessageListener(deliverMessageListener, new ChannelTopic(Constants.DELIVER_MESSAGE_INNER_QUEUE));
         return container;
     }
 
