@@ -35,7 +35,7 @@ const KEY_CLIENT_BIND = "client_bind";
  * PONG字符串转换后
  * @type {Uint8Array}
  */
-const PONG_BODY = new Uint8Array([80,79,78,71]);
+const PONG_BODY = new Uint8Array([80, 79, 78, 71]);
 
 
 let socket;
@@ -138,7 +138,7 @@ CIMPushManager.innerOnMessageReceived = function (e) {
          * 判断是否是握手鉴权失败
          * 终止后续自动重连
          */
-        if(reply.key === KEY_HANDSHAKE && reply.code === CODE_UNAUTHORIZED){
+        if (reply.key === KEY_HANDSHAKE && reply.code === CODE_UNAUTHORIZED) {
             manualStop = true;
         }
 
@@ -164,9 +164,9 @@ CIMPushManager.sendRequest = function (body) {
 };
 
 CIMPushManager.pong = function () {
-    let pong =  new Uint8Array(PONG_BODY.byteLength + 1);
+    let pong = new Uint8Array(PONG_BODY.byteLength + 1);
     pong[0] = PONG;
-    pong.set(PONG_BODY,1);
+    pong.set(PONG_BODY, 1);
     socket.send(pong);
 };
 
@@ -190,20 +190,16 @@ function getBrowser() {
     if (explorer.indexOf("msie") >= 0) {
         let ver = explorer.match(/msie ([\d.]+)/)[1];
         return {name: "IE", version: ver};
-    }
-    else if (explorer.indexOf("firefox") >= 0) {
+    } else if (explorer.indexOf("firefox") >= 0) {
         let ver = explorer.match(/firefox\/([\d.]+)/)[1];
         return {name: "Firefox", version: ver};
-    }
-    else if (explorer.indexOf("chrome") >= 0) {
+    } else if (explorer.indexOf("chrome") >= 0) {
         let ver = explorer.match(/chrome\/([\d.]+)/)[1];
         return {name: "Chrome", version: ver};
-    }
-    else if (explorer.indexOf("opera") >= 0) {
+    } else if (explorer.indexOf("opera") >= 0) {
         let ver = explorer.match(/opera.([\d.]+)/)[1];
         return {name: "Opera", version: ver};
-    }
-    else if (explorer.indexOf("Safari") >= 0) {
+    } else if (explorer.indexOf("Safari") >= 0) {
         let ver = explorer.match(/version\/([\d.]+)/)[1];
         return {name: "Safari", version: ver};
     }
