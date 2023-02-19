@@ -37,21 +37,21 @@ public class CIMWebsocketProperties {
     private WebsocketProtocol protocol;
 
     /**
-     长链接写空闲时间触发时间(s)
-     心跳发送定时，每当x秒无数据下发写入，触发 服务端-->客户端 心跳事件
+     * 长链接写空闲时间触发时间(s)
+     * 心跳发送定时，每当x秒无数据下发写入，触发 服务端-->客户端 心跳事件
      */
     private Duration writeIdle = Duration.ofSeconds(45);
 
     /**
-     长链接读空闲时间触发时间(s)
-     心跳响应定时，每当readIdle - writeIdle秒无数据接收，触发心跳超时计数
+     * 长链接读空闲时间触发时间(s)
+     * 心跳响应定时，每当readIdle - writeIdle秒无数据接收，触发心跳超时计数
      */
     private Duration readIdle = Duration.ofSeconds(60);
 
 
     /**
-     长链接最大允许心跳响应超时次数
-     达到该次数则 服务端断开链接
+     * 长链接最大允许心跳响应超时次数
+     * 达到该次数则 服务端断开链接
      */
     private int maxPongTimeout = 1;
 
@@ -92,7 +92,7 @@ public class CIMWebsocketProperties {
     }
 
     public void setWriteIdle(Duration writeIdle) {
-        if (writeIdle == null || writeIdle.getSeconds() <= 0){
+        if (writeIdle == null || writeIdle.getSeconds() <= 0) {
             return;
         }
         this.writeIdle = writeIdle;
@@ -103,7 +103,7 @@ public class CIMWebsocketProperties {
     }
 
     public void setReadIdle(Duration readIdle) {
-        if (readIdle == null || readIdle.getSeconds() <= 0){
+        if (readIdle == null || readIdle.getSeconds() <= 0) {
             return;
         }
         this.readIdle = readIdle;
@@ -114,7 +114,7 @@ public class CIMWebsocketProperties {
     }
 
     public void setMaxPongTimeout(int maxPongTimeout) {
-        if (maxPongTimeout <= 0){
+        if (maxPongTimeout <= 0) {
             return;
         }
         this.maxPongTimeout = maxPongTimeout;

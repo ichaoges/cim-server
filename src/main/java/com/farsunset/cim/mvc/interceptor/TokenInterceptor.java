@@ -39,30 +39,30 @@ import java.io.IOException;
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
-	private static final String HEADER_TOKEN = "access-token";
+    private static final String HEADER_TOKEN = "access-token";
 
-	@Resource
-	private AccessTokenService accessTokenService;
+    @Resource
+    private AccessTokenService accessTokenService;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
-		String token = request.getHeader(HEADER_TOKEN);
+        String token = request.getHeader(HEADER_TOKEN);
 
-		String uid = accessTokenService.getUid(token);
+        String uid = accessTokenService.getUid(token);
 
-		/*
-		 * 直接拒绝无token的接口调用请求或者token没有查询到对应的登录用户
-		 */
-		if (uid == null) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			return false;
-		}
+        /*
+         * 直接拒绝无token的接口调用请求或者token没有查询到对应的登录用户
+         */
+        if (uid == null) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return false;
+        }
 
-		request.setAttribute(UID.class.getName(), uid);
-		request.setAttribute(AccessToken.class.getName(), token);
+        request.setAttribute(UID.class.getName(), uid);
+        request.setAttribute(AccessToken.class.getName(), token);
 
-		return true;
+        return true;
 
-	}
+    }
 }

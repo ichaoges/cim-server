@@ -60,6 +60,6 @@ public class PushMessageListener implements MessageListener {
 
         String uid = message.getReceiver();
 
-        sessionGroup.write(uid,message);
+        sessionGroup.write(uid, message);
     }
 }

@@ -25,6 +25,7 @@ import com.farsunset.cim.entity.Session;
 import org.springframework.context.ApplicationEvent;
 
 public class SessionEvent extends ApplicationEvent {
+
     public SessionEvent(Session session) {
         super(session);
     }

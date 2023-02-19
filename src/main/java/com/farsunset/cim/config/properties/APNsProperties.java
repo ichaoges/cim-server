@@ -26,32 +26,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "cim.apns")
 public class APNsProperties {
 
-    private boolean debug;
-
-    private String appId;
-
     private final P12 p12 = new P12();
-
-    public static class P12 {
-        private String file;
-        private String password;
-
-        public void setFile(String file) {
-            this.file = file;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getFile() {
-            return file;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-    }
+    private boolean debug;
+    private String appId;
 
     public P12 getP12() {
         return p12;
@@ -79,5 +56,27 @@ public class APNsProperties {
 
     public String getP12Password() {
         return p12.password;
+    }
+
+    public static class P12 {
+
+        private String file;
+        private String password;
+
+        public String getFile() {
+            return file;
+        }
+
+        public void setFile(String file) {
+            this.file = file;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 }

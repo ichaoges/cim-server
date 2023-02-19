@@ -31,15 +31,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class UidArgumentResolver implements HandlerMethodArgumentResolver {
 
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(UID.class);
-	}
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(UID.class);
+    }
 
-	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-		return webRequest.getAttribute(UID.class.getName(),RequestAttributes.SCOPE_REQUEST);
-	}
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+        return webRequest.getAttribute(UID.class.getName(), RequestAttributes.SCOPE_REQUEST);
+    }
 
 }

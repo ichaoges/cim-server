@@ -25,7 +25,6 @@ import com.farsunset.cim.component.handler.annotation.CIMHandler;
 import com.farsunset.cim.constant.ChannelAttr;
 import com.farsunset.cim.constants.Constants;
 import com.farsunset.cim.entity.Session;
-import com.farsunset.cim.group.SessionGroup;
 import com.farsunset.cim.handler.CIMRequestHandler;
 import com.farsunset.cim.model.SentBody;
 import com.farsunset.cim.service.SessionService;
@@ -40,28 +39,28 @@ import java.util.Objects;
 @CIMHandler(key = "client_closed")
 public class ClosedHandler implements CIMRequestHandler {
 
-	@Resource
-	private SessionService sessionService;
+    @Resource
+    private SessionService sessionService;
 
-	@Override
-	public void process(Channel channel, SentBody message) {
+    @Override
+    public void process(Channel channel, SentBody message) {
 
-		Long sessionId = channel.attr(Constants.SESSION_ID).get();
+        Long sessionId = channel.attr(Constants.SESSION_ID).get();
 
-		if (sessionId == null){
-			return;
-		}
+        if (sessionId == null) {
+            return;
+        }
 
-		/*
-		 * ios开启了apns也需要显示在线，因此不删记录
-		 */
-		if (Objects.equals(channel.attr(ChannelAttr.CHANNEL).get(), Session.CHANNEL_IOS)){
-			sessionService.updateState(sessionId, Session.STATE_INACTIVE);
-			return;
-		}
+        /*
+         * ios开启了apns也需要显示在线，因此不删记录
+         */
+        if (Objects.equals(channel.attr(ChannelAttr.CHANNEL).get(), Session.CHANNEL_IOS)) {
+            sessionService.updateState(sessionId, Session.STATE_INACTIVE);
+            return;
+        }
 
-		sessionService.delete(sessionId);
+        sessionService.delete(sessionId);
 
-	}
+    }
 
 }
