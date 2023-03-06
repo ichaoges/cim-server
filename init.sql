@@ -1,5 +1,6 @@
 create database cim;
 
+
 CREATE TABLE `cim_session`
 (
     `id`          bigint(20)  NOT NULL AUTO_INCREMENT,
