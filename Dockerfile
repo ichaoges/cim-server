@@ -1,7 +1,6 @@
 FROM openjdk:17-alpine
 
-#ichaoge
-MAINTAINER ichaoge
+LABEL MAINTAINER=ichaoge
 
 RUN mkdir -p /server/conf /server/logs
 
