@@ -34,12 +34,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ichaoge</groupId>
-            <artifactId>iframe-redis</artifactId>
-            <version>${iframe.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
