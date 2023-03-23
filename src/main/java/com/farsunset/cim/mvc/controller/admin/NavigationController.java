@@ -20,7 +20,7 @@ public class NavigationController {
         return model;
     }
 
-    //@GetMapping(value = "/webclient")
+    @GetMapping(value = "/webclient")
     public ModelAndView webclient(ModelAndView model) {
         model.setViewName("console/webclient/index");
         return model;
