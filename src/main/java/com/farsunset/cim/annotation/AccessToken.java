@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 /**
  * 用户标注通过 token查到的用户账号，注入到Controller参数里面
  */
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AccessToken {
 
