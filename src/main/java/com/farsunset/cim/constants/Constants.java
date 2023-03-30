@@ -16,4 +16,6 @@ public interface Constants {
 
     AttributeKey<Long> SESSION_ID = AttributeKey.valueOf("session_id");
 
+    String TEST_ONE = "TEST_ONE";
+
 }
