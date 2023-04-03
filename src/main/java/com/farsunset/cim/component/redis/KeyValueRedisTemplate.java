@@ -1,11 +1,13 @@
 package com.farsunset.cim.component.redis;
 
 import com.farsunset.cim.constants.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 
+@Slf4j
 @Component
 public class KeyValueRedisTemplate extends StringRedisTemplate {
 
