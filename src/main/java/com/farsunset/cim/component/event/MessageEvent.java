@@ -14,4 +14,8 @@ public class MessageEvent extends ApplicationEvent {
         return (Message) source;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
