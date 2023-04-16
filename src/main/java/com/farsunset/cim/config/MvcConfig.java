@@ -2,6 +2,7 @@ package com.farsunset.cim.config;
 
 import com.farsunset.cim.mvc.resolver.TokenArgumentResolver;
 import com.farsunset.cim.mvc.resolver.UidArgumentResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -12,13 +13,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-    @Resource
+    @Autowired
     private HandlerInterceptor tokenInterceptor;
 
 

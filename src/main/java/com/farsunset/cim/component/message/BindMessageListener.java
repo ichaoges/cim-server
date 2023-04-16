@@ -8,11 +8,11 @@ import com.farsunset.cim.group.SessionGroup;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.util.JSONUtils;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class BindMessageListener implements MessageListener {
      */
     private final Map<String, String[]> conflictMap = new HashMap<>();
 
-    @Resource
+    @Autowired
     private SessionGroup sessionGroup;
 
     public BindMessageListener() {

@@ -3,16 +3,16 @@ package com.farsunset.cim.service.impl;
 import com.farsunset.cim.component.redis.TokenRedisTemplate;
 import com.farsunset.cim.service.AccessTokenService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class AccessTokenServiceImpl implements AccessTokenService {
 
-    @Resource
+    @Autowired
     private TokenRedisTemplate tokenRedisTemplate;
 
     @Override

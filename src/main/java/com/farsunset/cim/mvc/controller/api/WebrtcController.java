@@ -10,20 +10,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-
 @RestController
 @RequestMapping("/webrtc")
 @Api(produces = "application/json", tags = "单人通话信令推送接口")
 public class WebrtcController {
 
-    @Resource
+    @Autowired
     private CIMMessagePusher messagePusher;
 
     @ApiOperation(httpMethod = "POST", value = "发起单人语音通话")

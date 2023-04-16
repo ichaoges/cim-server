@@ -4,11 +4,10 @@ import com.farsunset.cim.component.event.MessageEvent;
 import com.farsunset.cim.group.SessionGroup;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.util.JSONUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 
 /**
@@ -18,7 +17,7 @@ import javax.annotation.Resource;
 @Component
 public class PushMessageListener implements MessageListener {
 
-    @Resource
+    @Autowired
     private SessionGroup sessionGroup;
 
     @Override

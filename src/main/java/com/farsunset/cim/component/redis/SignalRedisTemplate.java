@@ -6,13 +6,13 @@ import com.farsunset.cim.constants.Constants;
 import com.farsunset.cim.entity.Session;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.util.JSONUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 @Component
@@ -21,7 +21,7 @@ public class SignalRedisTemplate extends StringRedisTemplate {
     @Value("${spring.profiles.active}")
     private String env;
 
-    @Resource
+    @Autowired
     private ApplicationContext applicationContext;
 
 

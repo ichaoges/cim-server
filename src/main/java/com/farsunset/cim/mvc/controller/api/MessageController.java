@@ -6,11 +6,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
 
 
 //@RestController
@@ -18,7 +17,7 @@ import javax.annotation.Resource;
 @Api(produces = "application/json", tags = "消息相关接口")
 public class MessageController {
 
-    @Resource
+    @Autowired
     private CIMMessagePusher messagePusher;
 
     @ApiOperation(httpMethod = "POST", value = "发送消息")

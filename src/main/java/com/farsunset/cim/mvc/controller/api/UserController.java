@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,7 @@ import java.util.Map;
 @Validated
 public class UserController {
 
-    @Resource
+    @Autowired
     private AccessTokenService accessTokenService;
 
     @Autowired

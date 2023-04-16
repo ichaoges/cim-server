@@ -8,8 +8,8 @@ import com.farsunset.cim.handler.CIMRequestHandler;
 import com.farsunset.cim.model.SentBody;
 import com.farsunset.cim.service.SessionService;
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Objects;
 @CIMHandler(key = "client_closed")
 public class ClosedHandler implements CIMRequestHandler {
 
-    @Resource
+    @Autowired
     private SessionService sessionService;
 
     @Override

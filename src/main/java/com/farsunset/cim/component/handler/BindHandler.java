@@ -12,9 +12,8 @@ import com.farsunset.cim.model.SentBody;
 import com.farsunset.cim.service.SessionService;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
-import javax.annotation.Resource;
 
 /**
  * 客户长连接 账户绑定实现
@@ -23,13 +22,13 @@ import javax.annotation.Resource;
 @CIMHandler(key = "client_bind")
 public class BindHandler implements CIMRequestHandler {
 
-    @Resource
+    @Autowired
     private SessionService sessionService;
 
-    @Resource
+    @Autowired
     private SessionGroup sessionGroup;
 
-    @Resource
+    @Autowired
     private SignalRedisTemplate signalRedisTemplate;
 
     @Override

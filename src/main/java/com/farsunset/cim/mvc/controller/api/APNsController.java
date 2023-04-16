@@ -5,18 +5,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
 
 //@RestController
 //@RequestMapping("/apns")
 @Api(produces = "application/json", tags = "APNs推送相关")
 public class APNsController {
 
-    @Resource
+    @Autowired
     private SessionService sessionService;
 
     @ApiOperation(httpMethod = "POST", value = "开启apns")
