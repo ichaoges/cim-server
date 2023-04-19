@@ -14,5 +14,7 @@ public interface Constants {
 
     String APNS_DEVICE_TOKEN = "APNS_OPEN_%s";
 
+    String APNS_DEVICE_TOKEN_TEMP = "APNS_OPEN_%s";
+
     AttributeKey<Long> SESSION_ID = AttributeKey.valueOf("session_id");
 }
