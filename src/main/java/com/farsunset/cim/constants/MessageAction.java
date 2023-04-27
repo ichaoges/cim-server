@@ -146,9 +146,4 @@ public interface MessageAction {
      * 系统定制消息---多人通话-有人再次被呼叫
      */
     String ACTION_927 = "927";
-
-    /**
-     * 测试消息
-     */
-    String ACTION_928 = "928";
 }
