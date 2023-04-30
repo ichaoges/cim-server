@@ -4,6 +4,7 @@ import com.farsunset.cim.component.redis.KeyValueRedisTemplate;
 import com.farsunset.cim.component.redis.SignalRedisTemplate;
 import com.farsunset.cim.model.Message;
 import com.farsunset.cim.service.APNsService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class DefaultMessagePusher implements CIMMessagePusher {
      *
      * @param message
      */
-    public final void push(Message message) {
+    public final void push(@NonNull Message message) {
 
         String uid = message.getReceiver();
 
