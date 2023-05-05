@@ -2,6 +2,7 @@ package com.farsunset.cim.component.predicate;
 
 import com.farsunset.cim.handshake.HandshakeEvent;
 import com.farsunset.cim.service.AccessTokenService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class HandshakePredicate implements Predicate<HandshakeEvent> {
      * @return true验证通过 false验证失败
      */
     @Override
-    public boolean test(HandshakeEvent event) {
+    public boolean test(@NonNull HandshakeEvent event) {
 
         String token = event.getHeader("x-token");
         if (StringUtils.isBlank(token)) {
