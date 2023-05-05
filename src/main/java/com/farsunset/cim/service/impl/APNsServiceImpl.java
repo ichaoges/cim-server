@@ -37,11 +37,11 @@ public class APNsServiceImpl implements APNsService {
         InputStream stream = getClass().getResourceAsStream(properties.getP12File());
 
         apnsClient = new ApnsClientBuilder()
-                .setApnsServer(properties.isDebug() ? ApnsClientBuilder.DEVELOPMENT_APNS_HOST : ApnsClientBuilder.PRODUCTION_APNS_HOST)
+                .setApnsServer(properties.isDebug() ? ApnsClientBuilder.DEVELOPMENT_APNS_HOST
+                        : ApnsClientBuilder.PRODUCTION_APNS_HOST)
                 .setClientCredentials(stream, properties.getP12Password())
                 .build();
     }
-
 
     @SuppressWarnings("deprecation")
     @Override
@@ -53,7 +53,7 @@ public class APNsServiceImpl implements APNsService {
 
         ApnsPayloadBuilder payloadBuilder = new SimpleApnsPayloadBuilder();
 
-        payloadBuilder.setAlertTitle("您有一条新的消息");
+        payloadBuilder.setAlertTitle("you have a new message.");
 
         payloadBuilder.setSound("default");
         payloadBuilder.setBadgeNumber(1);
