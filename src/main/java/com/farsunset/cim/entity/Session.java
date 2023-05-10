@@ -17,7 +17,6 @@ public class Session {
     public static final String CHANNEL_WINDOWS = "windows";
     public static final String CHANNEL_MAC = "mac";
     public static final String CHANNEL_WEB = "web";
-    public static final String CHANNEL_DOCKER = "docker";
 
     /**
      * 数据库主键ID
