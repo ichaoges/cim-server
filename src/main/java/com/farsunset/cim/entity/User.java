@@ -19,8 +19,6 @@ public class User {
     private Integer type;
 
     private Integer level;
-    //贡献值
-    private Double investment;
     //用户名
     private String userName;
     //手机号码
